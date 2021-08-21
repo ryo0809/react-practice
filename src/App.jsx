@@ -5,12 +5,9 @@ export const App = () => {
 
     const [todoText, setTodoText] = useState('');
 
-    const [imcompleteTodos, setImcompleteTodos] = useState([
-        'あああああ',
-        'いいいいい'
-    ]);
+    const [imcompleteTodos, setImcompleteTodos] = useState([]);
 
-    const [completeTodos, setCompleteTodos] = useState(['ううううう']);
+    const [completeTodos, setCompleteTodos] = useState([]);
 
     const inputTodoText = (event) => {
         setTodoText(event.target.value);
@@ -35,6 +32,24 @@ export const App = () => {
         setImcompleteTodos(newTodos);
     }
 
+    const completeTodo = (index) => {
+        const newImcompleteTodos = [...imcompleteTodos];
+        newImcompleteTodos.splice(index, 1);
+        setImcompleteTodos(newImcompleteTodos);
+
+        const newCompleteTodos = [...completeTodos, imcompleteTodos[index]];
+        setCompleteTodos(newCompleteTodos);
+    }
+
+    const BackTodo = (index) => {
+        const newCompleteTodos = [...completeTodos];
+        newCompleteTodos.splice(index, 1);
+
+        const newImcompleteTodos = [...imcompleteTodos, completeTodos[index]];
+        setCompleteTodos(newCompleteTodos);
+        setImcompleteTodos(newImcompleteTodos);
+    }
+
     return (
         <>
             <div className="input-area">
@@ -48,7 +63,7 @@ export const App = () => {
                         return (
                             <div key={todo} className="list-row">
                                 <li className="list-title">{todo}</li>
-                                <button>完了</button>
+                                <button onClick={() => completeTodo(index)}>完了</button>
                                 <button onClick={() => deteleTodo(index)}>削除</button>
                             </div>
                         );
@@ -58,11 +73,11 @@ export const App = () => {
             <div className="complete-area">
                 <p className="title">完了のTODO</p>
                 <ul>
-                    { completeTodos.map((todo) => {
+                    { completeTodos.map((todo, index) => {
                         return (
                             <div key={todo} className="list-row">
-                                <li className="list-title">ううううう</li>
-                                <button>戻す</button>
+                                <li className="list-title">{todo}</li>
+                                <button onClick={() => BackTodo(index)}>戻す</button>
                             </div>
                         );
                     }) }
