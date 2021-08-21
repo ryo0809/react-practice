@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import "./style.css";
+import { InputTodo } from "./components/InputTodo";
+import { IncompleteTodos } from "./components/IncompleteTodos";
+import { CompleteTodos } from "./components/CompleteTodos";
 
 export const App = () => {
 
@@ -52,37 +55,20 @@ export const App = () => {
 
     return (
         <>
-            <div className="input-area">
-                <input id="input-form" placeholder="TODOを入力" valie={todoText} onChange={inputTodoText} />
-                <button onClick={addTodoText}>追加</button>
-            </div>
-            <div className="imcomplete-area">
-                <p className="title">未完了のTODO</p>
-                <ul>
-                    { imcompleteTodos.map((todo, index) => {
-                        return (
-                            <div key={todo} className="list-row">
-                                <li className="list-title">{todo}</li>
-                                <button onClick={() => completeTodo(index)}>完了</button>
-                                <button onClick={() => deteleTodo(index)}>削除</button>
-                            </div>
-                        );
-                    }) }
-                </ul>
-            </div>
-            <div className="complete-area">
-                <p className="title">完了のTODO</p>
-                <ul>
-                    { completeTodos.map((todo, index) => {
-                        return (
-                            <div key={todo} className="list-row">
-                                <li className="list-title">{todo}</li>
-                                <button onClick={() => BackTodo(index)}>戻す</button>
-                            </div>
-                        );
-                    }) }
-                </ul>
-            </div>
+            <InputTodo
+                todoText={todoText}
+                onChange={inputTodoText}
+                onClick={addTodoText}
+            />
+            <IncompleteTodos
+                imcompleteTodos={imcompleteTodos}
+                completeTodo={completeTodo}
+                deteleTodo={deteleTodo}
+            />
+            <CompleteTodos
+                completeTodos={completeTodos}
+                BackTodo={BackTodo}
+            />
         </>
     );
 };
